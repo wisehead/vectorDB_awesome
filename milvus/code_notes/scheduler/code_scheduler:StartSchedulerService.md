@@ -32,4 +32,11 @@ scheduler::StartSchedulerService()
         default: { break; }
     }
     resources_.emplace_back(resource);
+----auto io = Connection("io", 500);
+----ResMgrInst::GetInstance()->Add(ResourceFactory::Create("cpu", "CPU", 0));
+----ResMgrInst::GetInstance()->Connect("disk", "cpu", io);    
+------ResourceMgr::Connect
+--------res1 = GetResource(name1);
+--------res2 = GetResource(name2);
+--------res1->AddNeighbour(std::static_pointer_cast<Node>(res2), connection);
 ```
