@@ -20,6 +20,10 @@ Resource::loader_function
 ------auto task_item = pick_task_load();
 ------if (task_item->get_task()->Type() == TaskType::BuildIndexTask && name() == "cpu")
 --------BuildMgrInst::GetInstance()->Take();
+------LoadFile(task_item->get_task());
+--------CpuResource::LoadFile
+----------task->Load(LoadType::DISK2CPU, 0);
+------------XBuildIndexTask::Load//or other task
 ```
 
 #3.Resource::pick_task_load
