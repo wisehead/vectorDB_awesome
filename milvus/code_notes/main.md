@@ -14,4 +14,11 @@ main
 --InstanceLockCheck::Release
 ----fd = open(InstanceLockCheck::GetInstance()->lk_path.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW, 0640);
 ----close(fd);
+--Server::Init
+----daemonized_ = daemonized;
+----pid_filename_ = pid_filename;
+----config_filename_ = config_filename;
+--Server::Start
+--/* wait signal */
+--pause();
 ```
