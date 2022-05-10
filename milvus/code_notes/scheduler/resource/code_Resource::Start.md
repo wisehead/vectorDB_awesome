@@ -18,6 +18,8 @@ Resource::loader_function
     lock.unlock();
 ----while (true)    
 ------auto task_item = pick_task_load();
+------if (task_item->get_task()->Type() == TaskType::BuildIndexTask && name() == "cpu")
+--------BuildMgrInst::GetInstance()->Take();
 ```
 
 #3.Resource::pick_task_load
@@ -26,12 +28,12 @@ Resource::loader_function
 Resource::pick_task_load
 --auto indexes = task_table_.PickToLoad(10);
 --for (auto index : indexes) {
-        // try to set one task loading, then return
-        if (task_table_.Load(index)) {
-            return task_table_.at(index);
-        }
+----// try to set one task loading, then return
+----if (task_table_.Load(index)) 
+--------table_[index]->Load()
+----------TaskTableItem::Load
+------return task_table_.at(index);
         // else try next
-    }
 ```
 
 #4.TaskTable::PickToLoad
