@@ -11,5 +11,7 @@ main
 --signal(SIGSEGV, milvus::server::SignalUtil::HandleSignal); 
 --signal(SIGUSR2, milvus::server::SignalUtil::HandleSignal); 
 --signal(SIGTERM, milvus::server::SignalUtil::HandleSignal); 
-
+--InstanceLockCheck::Release
+----fd = open(InstanceLockCheck::GetInstance()->lk_path.c_str(), O_RDWR | O_CREAT | O_NOFOLLOW, 0640);
+----close(fd);
 ```
