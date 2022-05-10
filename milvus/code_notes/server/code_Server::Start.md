@@ -4,5 +4,6 @@
 Server::Start
 --Daemonize
 --LoadConfig
+----config = Config::GetInstance();
 
 ```
