@@ -2,5 +2,6 @@
 
 ```
 StartService
---
+--engine::KnowhereResource::Initialize()
+--scheduler::StartSchedulerService()
 ```
