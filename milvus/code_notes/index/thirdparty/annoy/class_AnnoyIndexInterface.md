@@ -30,3 +30,4 @@ class AnnoyIndexInterface {
   virtual int64_t cal_size() = 0;
 };
 ```
+
