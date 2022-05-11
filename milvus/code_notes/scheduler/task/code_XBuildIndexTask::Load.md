@@ -12,4 +12,6 @@ XBuildIndexTask::Load
 ------index_->Size
 --------VecIndex::Size
 ----------return BlacklistSize() + UidsSize() + IndexSize();
+--to_index_id_ = file_->id_;
+--to_index_type_ = file_->file_type_;
 ```
