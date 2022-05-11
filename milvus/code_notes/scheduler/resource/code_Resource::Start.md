@@ -37,6 +37,9 @@ Resource::loader_function
 --------task_item->from->set_task(std::move(FinishedTask::Create(task_item->from->get_task())));
 ----------FinishedTask::Create
 --------task_item->from = nullptr;
+------if (subscriber_)
+--------auto event = std::make_shared<LoadCompletedEvent>(shared_from_this(), task_item);
+--------subscriber_(std::static_pointer_cast<Event>(event));
 ```
 
 #3.Resource::pick_task_load
