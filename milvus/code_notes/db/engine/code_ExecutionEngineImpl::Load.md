@@ -17,4 +17,5 @@ ExecutionEngineImpl::Load
 ----if (index_type_ == EngineType::FAISS_IDMAP) 
 ------index_ = vec_index_factory.CreateVecIndex(knowhere::IndexEnum::INDEX_FAISS_IDMAP);
 --------VecIndexFactory::CreateVecIndex
+----MappingMetricType(metric_type_, conf);
 ```
