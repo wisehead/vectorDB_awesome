@@ -17,7 +17,11 @@ ExecutionEngineImpl::Load
 ----if (index_type_ == EngineType::FAISS_IDMAP) 
 ------index_ = vec_index_factory.CreateVecIndex(knowhere::IndexEnum::INDEX_FAISS_IDMAP);
 --------VecIndexFactory::CreateVecIndex
+----milvus::json conf{{knowhere::meta::DEVICEID, gpu_num_}, {knowhere::meta::DIM, dim_}};
 ----MappingMetricType(metric_type_, conf);
 ----AdapterMgr::GetAdapter
 ------return collection_.at(type)();
+----mode = index_->index_mode();
+----adapter->CheckTrain(conf, mode)
+------IVFConfAdapter::CheckTrain
 ```
