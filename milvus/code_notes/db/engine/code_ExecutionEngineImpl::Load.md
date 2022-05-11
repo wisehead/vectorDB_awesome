@@ -24,4 +24,5 @@ ExecutionEngineImpl::Load
 ----mode = index_->index_mode();
 ----adapter->CheckTrain(conf, mode)
 ------IVFConfAdapter::CheckTrain
+----SegmentReader::Load
 ```
