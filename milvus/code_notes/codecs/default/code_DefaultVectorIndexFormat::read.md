@@ -51,6 +51,8 @@ DefaultVectorIndexFormat::read_internal
 ------hnswlib::SpaceInterface<float>* space;                               
 ------index_ = std::make_shared<hnswlib::HierarchicalNSW<float>>(space);   
 ------index_->loadIndex(reader);                                           
-
 --index->UpdateIndexSize();
+----IndexHNSW::UpdateIndexSize
+------index_size_ = index_->cal_size();
+--return index;
 ```
