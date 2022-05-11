@@ -74,4 +74,7 @@ ExecutionEngineImpl::Load
                         }
 ----index_->SetBlacklist(concurrent_bitset_ptr);
 ----segment_reader_ptr->LoadUids(*uids_ptr);                        
+----index_->SetUids(uids_ptr);
+--if (to_cache) {
+----Cache();
 ```
