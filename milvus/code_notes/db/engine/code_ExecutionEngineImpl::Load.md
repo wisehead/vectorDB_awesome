@@ -63,6 +63,15 @@ ExecutionEngineImpl::Load
 --else {// not IsRawIndexType
 ----segment_reader_ptr->GetSegment(segment_ptr);
 ----segment_reader_ptr->LoadVectorIndex(location_, segment_ptr->vector_index_ptr_);
-
-
+----index_ = segment_ptr->vector_index_ptr_->GetVectorIndex();
+----segment_reader_ptr->LoadDeletedDocs(deleted_docs_ptr);
+----deleted_docs = deleted_docs_ptr->GetDeletedDocs();
+----concurrent_bitset_ptr = std::make_shared<faiss::ConcurrentBitset>(index_->Count());
+                        for (auto& offset : deleted_docs) {
+                            if (!concurrent_bitset_ptr->test(offset)) {
+                                concurrent_bitset_ptr->set(offset);
+                            }
+                        }
+----index_->SetBlacklist(concurrent_bitset_ptr);
+----segment_reader_ptr->LoadUids(*uids_ptr);                        
 ```

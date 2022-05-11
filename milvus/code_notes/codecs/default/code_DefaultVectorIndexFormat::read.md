@@ -5,6 +5,7 @@ DefaultVectorIndexFormat::read
 --dir_path = fs_ptr->operation_ptr_->GetDirectory();
 --knowhere::VecIndexPtr index = read_internal(fs_ptr, location);
 --vector_index->SetVectorIndex(index);
+----
 ```
 
 #2.DefaultVectorIndexFormat::read_internal
