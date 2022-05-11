@@ -25,4 +25,24 @@ ExecutionEngineImpl::Load
 ----adapter->CheckTrain(conf, mode)
 ------IVFConfAdapter::CheckTrain
 ----SegmentReader::Load
+----segment_reader_ptr->GetSegment(segment_ptr);
+----auto& vectors = segment_ptr->vectors_ptr_;
+    auto& deleted_docs = segment_ptr->deleted_docs_ptr_->GetDeletedDocs();
+----vectors_uids = vectors->GetMutableUids();
+------Vectors::GetMutableUids
+----vector_uids_ptr->swap(vectors_uids);
+----auto& vectors_data = vectors->GetData();
+----auto attrs = segment_ptr->attrs_ptr_;
+----auto attrs_it = attrs->attrs.begin();
+----for (; attrs_it != attrs->attrs.end(); ++attrs_it) {
+                attr_data_.insert(std::pair(attrs_it->first, attrs_it->second->GetData()));
+                attr_size_.insert(std::pair(attrs_it->first, attrs_it->second->GetNbytes()));
+            }
+----auto count = vector_uids_ptr->size();
+----vector_count_ = count;
+----if (!deleted_docs.empty()) {
+------concurrent_bitset_ptr = std::make_shared<faiss::ConcurrentBitset>(count);
+------for (auto& offset : deleted_docs) {
+--------concurrent_bitset_ptr->set(offset);
+----auto dataset = knowhere::GenDataset(count, this->dim_, vectors_data.data());   
 ```
