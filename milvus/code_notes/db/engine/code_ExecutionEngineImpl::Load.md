@@ -49,5 +49,14 @@ ExecutionEngineImpl::Load
 ----bf_index->Train(knowhere::DatasetPtr(), conf);
 ------IDMAP::Train
 ----bf_index->AddWithoutIds(dataset, conf);
+------IDMAP::AddWithoutIds
+--------index_->add(rows, (float*)p_data);
+----------IndexFlat::add
+------------xb.insert(xb.end(), x, x + n * d);
+------------ntotal += n;
 ----bf_index->SetBlacklist(concurrent_bitset_ptr);
+------VecIndex::SetBlacklist
+--------bitset_ = std::move(bitset_ptr);
+--else {// not IsRawIndexType
+----
 ```
