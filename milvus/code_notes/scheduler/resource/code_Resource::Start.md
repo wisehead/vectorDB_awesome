@@ -24,6 +24,19 @@ Resource::loader_function
 --------CpuResource::LoadFile
 ----------task->Load(LoadType::DISK2CPU, 0);
 ------------XBuildIndexTask::Load//or other task
+------task_item->Loaded();
+--------TaskTableItem::Loaded
+----------if (state == TaskTableItemState::LOADING) 
+------------state = TaskTableItemState::LOADED;
+------label = task_item->get_task()->label();
+------if (task_item->from)
+--------task_item->from->Moved();
+----------TaskTableItem::Moved
+------------if (state == TaskTableItemState::MOVING)
+--------------state = TaskTableItemState::MOVED;
+--------task_item->from->set_task(std::move(FinishedTask::Create(task_item->from->get_task())));
+----------FinishedTask::Create
+--------task_item->from = nullptr;
 ```
 
 #3.Resource::pick_task_load
