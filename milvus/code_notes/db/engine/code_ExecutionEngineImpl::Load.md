@@ -18,4 +18,6 @@ ExecutionEngineImpl::Load
 ------index_ = vec_index_factory.CreateVecIndex(knowhere::IndexEnum::INDEX_FAISS_IDMAP);
 --------VecIndexFactory::CreateVecIndex
 ----MappingMetricType(metric_type_, conf);
+----AdapterMgr::GetAdapter
+------return collection_.at(type)();
 ```
