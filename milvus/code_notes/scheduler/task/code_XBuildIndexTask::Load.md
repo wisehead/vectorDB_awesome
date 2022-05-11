@@ -7,4 +7,9 @@ XBuildIndexTask::Load
 ----auto options = build_index_job->options();
 ----if (type == LoadType::DISK2CPU) 
 ------stat = to_index_engine_->Load(options.insert_cache_immediately_);
+--file_size = to_index_engine_->Size();
+----ExecutionEngineImpl::Size
+------index_->Size
+--------VecIndex::Size
+----------return BlacklistSize() + UidsSize() + IndexSize();
 ```
