@@ -45,4 +45,9 @@ ExecutionEngineImpl::Load
 ------for (auto& offset : deleted_docs) {
 --------concurrent_bitset_ptr->set(offset);
 ----auto dataset = knowhere::GenDataset(count, this->dim_, vectors_data.data());   
+----auto bf_index = std::static_pointer_cast<knowhere::IDMAP>(index_);
+----bf_index->Train(knowhere::DatasetPtr(), conf);
+------IDMAP::Train
+----bf_index->AddWithoutIds(dataset, conf);
+----bf_index->SetBlacklist(concurrent_bitset_ptr);
 ```
