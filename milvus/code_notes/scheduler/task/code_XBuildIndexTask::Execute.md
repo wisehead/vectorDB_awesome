@@ -4,6 +4,7 @@
 XBuildIndexTask::Execute
 --job = job_.lock()//weak_ptr -> shared_ptr
 --auto build_index_job = std::static_pointer_cast<scheduler::BuildIndexJob>(job);
+
 --// step 1: create collection file
   engine::meta::SegmentSchema table_file;
   table_file.collection_id_ = file_->collection_id_;
@@ -13,9 +14,15 @@ XBuildIndexTask::Execute
 --engine::meta::MetaPtr meta_ptr = build_index_job->meta();
 --Status status = meta_ptr->CreateCollectionFile(table_file);
 ----MemTableFile::CreateCollectionFile//or MySQL,SQLite interface
+
 --// step 2: build index
 --index = to_index_engine_->BuildIndex(table_file.location_, (EngineType)table_file.engine_type_);
 ----ExecutionEngineImpl::BuildIndex
+
 --// step 3: if collection has been deleted, dont save index file
 --MySQLMetaImpl::HasCollection
+
+--// step 4: save index file
+--index->Serialize();
+----ExecutionEngineImpl::Serialize
 ```
