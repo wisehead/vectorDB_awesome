@@ -25,4 +25,20 @@ XBuildIndexTask::Execute
 --// step 4: save index file
 --index->Serialize();
 ----ExecutionEngineImpl::Serialize
+
+--// step 5: update meta
+--table_file.file_type_ = engine::meta::SegmentSchema::INDEX;
+--table_file.file_size_ = server::CommonUtil::GetFileSize(table_file.location_);
+--table_file.row_count_ = file_->row_count_;  // index->Count();
+--auto origin_file = *file_;
+--origin_file.file_type_ = engine::meta::SegmentSchema::BACKUP;
+
+--engine::meta::SegmentsSchema update_files = {table_file, origin_file};
+-- // makesure index file is sucessfully serialized to disk
+--status = meta_ptr->UpdateCollectionFiles(update_files);
+----MySQLMetaImpl::UpdateCollectionFiles
+--build_index_job->BuildIndexDone(to_index_id_);
+----BuildIndexJob::BuildIndexDone
+------to_index_files_.erase(to_index_id);
+------cv_.notify_all();
 ```
