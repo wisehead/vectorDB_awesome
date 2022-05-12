@@ -12,3 +12,12 @@ TaskTable::Put
 ----subscriber_();                                                                                                  
 
 ```
+
+#2.subscriber_ TaskTable::RegisterSubscriber
+
+```cpp
+inline void
+    RegisterSubscriber(std::function<void(void)> subscriber) {
+        subscriber_ = std::move(subscriber);
+    }
+```
