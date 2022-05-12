@@ -17,8 +17,14 @@ ExecutionEngineImpl::BuildIndex
 ----auto dataset = knowhere::GenDataset(Count(), Dimension(), from_index->GetRawVectors());
 ----to_index->BuildAll(dataset, conf);//all kinds of buildAll
 ------CPUSPTAGRNG::BuildAll//
---------SetParameters(train_config);
---------DatasetPtr dataset = origin;
+----uids = from_index->GetUids();
+----blacklist = from_index->GetBlacklist();
 --else if (bin_from_index)
-----
+----auto dataset = knowhere::GenDataset(Count(), Dimension(), bin_from_index->GetRawVectors());
+----to_index->BuildAll(dataset, conf);
+----uids = bin_from_index->GetUids();
+----blacklist = bin_from_index->GetBlacklist();
+--to_index->SetUids(uids);
+--to_index->SetBlacklist(blacklist);
+--return std::make_shared<ExecutionEngineImpl>(to_index, location, engine_type, metric_type_, index_params_);
 ```
