@@ -13,4 +13,7 @@ XBuildIndexTask::Execute
 --engine::meta::MetaPtr meta_ptr = build_index_job->meta();
 --Status status = meta_ptr->CreateCollectionFile(table_file);
 ----MemTableFile::CreateCollectionFile//or MySQL,SQLite interface
+--// step 2: build index
+--index = to_index_engine_->BuildIndex(table_file.location_, (EngineType)table_file.engine_type_);
+----ExecutionEngineImpl::BuildIndex
 ```
