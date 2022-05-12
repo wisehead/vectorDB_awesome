@@ -8,4 +8,6 @@ Resource::executor_function
 --while (running_) 
 ----while (true)
 ------Process(task_item->get_task());
+--------CpuResource::Process
+----------XBuildIndexTask::Execute
 ```
