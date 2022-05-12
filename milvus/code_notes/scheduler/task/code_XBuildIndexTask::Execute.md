@@ -16,4 +16,6 @@ XBuildIndexTask::Execute
 --// step 2: build index
 --index = to_index_engine_->BuildIndex(table_file.location_, (EngineType)table_file.engine_type_);
 ----ExecutionEngineImpl::BuildIndex
+--// step 3: if collection has been deleted, dont save index file
+--MySQLMetaImpl::HasCollection
 ```
