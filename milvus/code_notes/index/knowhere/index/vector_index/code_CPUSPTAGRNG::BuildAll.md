@@ -9,6 +9,14 @@ CPUSPTAGRNG::BuildAll
 --auto metaset = ConvertToMetadataSet(dataset);
 ----ConvertToMetadataSet
 --index_ptr_->BuildIndex(vectorset, metaset);  
+----VectorIndex::BuildIndex//SPTAG_VectorIndex
+------BuildIndex(p_vectorSet->GetData(), p_vectorSet->Count(), p_vectorSet->Dimension());
+--------Index<T>::BuildIndex//BKT
+--------Index<T>::BuildIndex//KDT
+------m_pMetadata = std::move(p_metadataSet);
+------if (p_withMetaIndex && m_pMetadata != nullptr) 
+          BuildMetaMapping();
+
 
 ```
 
