@@ -11,7 +11,7 @@ ExecutionEngineImpl::Serialize
 ----------index_ptr_ = index_ptr;
 --auto status = segment_writer_ptr->WriteVectorIndex(location_);
 ----SegmentWriter::WriteVectorIndex
-------fs_ptr_->operation_ptr_->CreateDirectory();
-------default_codec.GetVectorIndexFormat()->write(fs_ptr_, location, segment_ptr_->vector_index_ptr_);
---------DefaultVectorIndexFormat::write
+--index_->UpdateIndexSize();
+----CPUSPTAGRNG::UpdateIndexSize
+------index_size_ = index_ptr_->GetIndexSize();
 ```
