@@ -35,9 +35,8 @@ Scheduler::OnLoadCompleted
 --auto resource = event->resource_;
 --resource->WakeupExecutor();
 ----Resource::WakeupExecutor
-------{
-        std::lock_guard<std::mutex> lock(exec_mutex_);
-        exec_flag_ = true;
-------}
-------exec_cv_.notify_one();
+--auto task_table_type = load_completed_event->task_table_item_->get_task()->label()->Type();
+--switch (task_table_type) 
+----case TaskLabelType::SPECIFIED_RESOURCE: 
+------Action::SpecifiedResourceLabelTaskScheduler(res_mgr_, resource, load_completed_event);
 ```
