@@ -16,5 +16,11 @@ JobMgr::worker_function
 ------if (search_job->vectors().float_data_.empty() && search_job->vectors().binary_data_.empty() &&!search_job->vectors().id_array_.empty()) 
 --------for (auto task = tasks.begin(); task != tasks.end();)
 ----------auto search_task = std::static_pointer_cast<XSearchTask>(*task);
-----------auto location = search_task->GetLocation();                
+----------auto location = search_task->GetLocation();   
+----------// Load bloom filter
+          std::string segment_dir;
+          engine::utils::GetParentPath(location, segment_dir);
+          segment::SegmentReader segment_reader(segment_dir);
+          segment::IdBloomFilterPtr id_bloom_filter_ptr;
+          segment_reader.LoadBloomFilter(id_bloom_filter_ptr);             
 ```
