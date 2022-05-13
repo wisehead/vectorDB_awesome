@@ -41,6 +41,17 @@ JobMgr::worker_function
 --------Optimizer::Run
 ----for (auto& task : tasks) {
 ------calculate_path(res_mgr_, task);
-
+----// disk resources NEVER be empty.
+----if (auto disk = res_mgr_->GetDiskResources()[0].lock()) {
+------for (auto& task : tasks) {
+--------if (task->Type() == TaskType::BuildIndexTask && task->path().Last() == "cpu") {
+----------CPUBuilderInst::GetInstance()->Put(task);
+------------CPUBuilder::Put
+--------------queue_.push(task);
+--------else {
+----------disk->task_table().Put(task, nullptr);
+------------TaskTable::Put
+------}
+----}
                           
 ```
