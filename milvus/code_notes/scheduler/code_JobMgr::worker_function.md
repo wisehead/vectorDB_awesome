@@ -11,5 +11,10 @@ JobMgr::worker_function
 --------TaskCreator::Create
 ----auto search_job = std::dynamic_pointer_cast<SearchJob>(job);
 ----if (search_job != nullptr)
-------
+------search_job->GetResultIds().resize(search_job->nq(), -1);
+------search_job->GetResultDistances().resize(search_job->nq(), std::numeric_limits<float>::max());
+------if (search_job->vectors().float_data_.empty() && search_job->vectors().binary_data_.empty() &&!search_job->vectors().id_array_.empty()) 
+--------for (auto task = tasks.begin(); task != tasks.end();)
+----------auto search_task = std::static_pointer_cast<XSearchTask>(*task);
+----------auto location = search_task->GetLocation();                
 ```
