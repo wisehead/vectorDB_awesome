@@ -22,5 +22,22 @@ JobMgr::worker_function
           engine::utils::GetParentPath(location, segment_dir);
           segment::SegmentReader segment_reader(segment_dir);
           segment::IdBloomFilterPtr id_bloom_filter_ptr;
-          segment_reader.LoadBloomFilter(id_bloom_filter_ptr);             
+          segment_reader.LoadBloomFilter(id_bloom_filter_ptr);      
+----------// Check if the id is present.
+          bool pass = true;
+          for (auto& id : search_job->vectors().id_array_) {
+          	if (id_bloom_filter_ptr->Check(id)) {
+            		pass = false;
+            		break;
+          	}
+          } 
+----------if (pass) {
+          --search_job->SearchDone(search_task->GetIndexId());
+          --task = tasks.erase(task);
+----------} else {
+          --task++;   
+----for (auto& task : tasks) {
+------OptimizerInst::GetInstance()->Run(task);
+--------Optimizer::Run
+                          
 ```
