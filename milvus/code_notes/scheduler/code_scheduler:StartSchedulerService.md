@@ -10,8 +10,11 @@ scheduler::StartSchedulerService()
       }
 	 }  
 --ResMgrInst::GetInstance()->Start();       
+----ResourceMgr::Start
 --SchedInst::GetInstance()->Start();        
---JobMgrInst::GetInstance()->Start();       
+----Scheduler::Start
+--JobMgrInst::GetInstance()->Start();    
+----JobMgr::Start   
 --CPUBuilderInst::GetInstance()->Start();   
 
 ```
