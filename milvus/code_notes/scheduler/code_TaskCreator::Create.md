@@ -12,3 +12,16 @@ TaskCreator::Create
 ----default: {
 ------return std::vector<TaskPtr>();
 ```
+
+
+#2.TaskCreator::Create
+
+```cpp
+TaskCreator::Create(const BuildIndexJobPtr& job)
+--for (auto& to_index_file : job->to_index_files())
+----auto task = std::make_shared<XBuildIndexTask>(to_index_file.second, nullptr);
+----task->job_ = job;
+----tasks.emplace_back(task);
+}
+```
+
