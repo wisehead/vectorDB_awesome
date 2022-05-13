@@ -39,5 +39,8 @@ JobMgr::worker_function
 ----for (auto& task : tasks) {
 ------OptimizerInst::GetInstance()->Run(task);
 --------Optimizer::Run
+----for (auto& task : tasks) {
+------calculate_path(res_mgr_, task);
+
                           
 ```
