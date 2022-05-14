@@ -48,5 +48,9 @@ DBWrapper::StartService
 --for (auto& path : opt.meta_.slave_paths_) {
         s = CommonUtil::CreateDirectory(path);
     }
---db_ = engine::DBFactory::Build(opt);    
+--db_ = engine::DBFactory::Build(opt);   
+----DBFactory::Build
+------return std::make_shared<DBImpl>(options);
+--db_->Start();
+----DBImpl::Start 
 ```
