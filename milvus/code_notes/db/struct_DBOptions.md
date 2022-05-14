@@ -23,3 +23,48 @@ struct DBOptions {
     std::string mxlog_path_ = "/tmp/milvus/wal/";
 };  // Options
 ```
+
+#2.struct DBMetaOptions
+
+```cpp
+struct DBMetaOptions {
+    std::string path_;
+    std::vector<std::string> slave_paths_;
+    std::string backend_uri_;
+    ArchiveConf archive_conf_ = ArchiveConf("delete");
+};  // DBMetaOptions
+
+```
+
+#3.struct ArchiveConf
+
+```cpp
+struct ArchiveConf {
+    using CriteriaT = std::map<std::string, int64_t>;
+
+    explicit ArchiveConf(const std::string& type, const std::string& criterias = std::string());
+
+    const std::string&
+    GetType() const {
+        return type_;
+    }
+
+    const CriteriaT
+    GetCriterias() const {
+        return criterias_;
+    }
+
+    void
+    SetCriterias(const ArchiveConf::CriteriaT& criterial);
+
+ private:
+    void
+    ParseCritirias(const std::string& criterias);
+    void
+    ParseType(const std::string& type);
+
+    std::string type_;
+    CriteriaT criterias_;
+};
+
+```
