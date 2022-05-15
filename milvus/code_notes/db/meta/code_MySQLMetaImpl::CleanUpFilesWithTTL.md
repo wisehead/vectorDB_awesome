@@ -19,4 +19,13 @@ MySQLMetaImpl::CleanUpFilesWithTTL
 ----------------return true;
 --------------else
 ----------------return (it_file->second > 0) ? false : true;
+----// erase file data from cache
+    // because GetCollectionFilePath won't able to generate file path after the file is deleted
+----utils::GetCollectionFilePath(options_, collection_file);
+------std::string parent_path = ConstructParentFolder(options.path_, table_file);
+--------std::string table_path = db_path + TABLES_FOLDER + table_file.collection_id_;
+--------std::string partition_path = table_path + "/" + table_file.segment_id_;
+------table_file.location_ = parent_path + "/" + table_file.file_id_;
+----server::CommonUtil::EraseFromCache(collection_file.location_);
+------CommonUtil::EraseFromCache
 ```
