@@ -11,5 +11,8 @@ MergeManagerImpl::MergeFiles
 ----MergeTask task(meta_ptr_, options_, group);
 ----status = task.Execute();
 ----files_holder.UnmarkFiles(group);
+------FilesHolder::UnmarkFiles
+--------for (auto& file : files) {
+----------UnmarkFileInternal(file);
 
 ```
