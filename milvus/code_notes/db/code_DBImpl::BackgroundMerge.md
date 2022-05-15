@@ -9,4 +9,7 @@ DBImpl::BackgroundMerge
 ----}
 ----auto status = merge_mgr_ptr_->MergeFiles(collection_id);
 ------MergeManagerImpl::MergeFiles
+----initialized_.load(std::memory_order_acquire)
+--meta_ptr_->CleanUpFilesWithTTL(ttl);
+----MySQLMetaImpl::CleanUpFilesWithTTL
 ```
