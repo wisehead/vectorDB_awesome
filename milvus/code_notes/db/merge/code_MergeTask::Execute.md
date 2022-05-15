@@ -24,4 +24,7 @@ MergeTask::Execute
 ----if (size >= file_schema.index_file_size_) {
             break;
 ----}
+--// step 3: serialize to disk
+--status = segment_writer_ptr->Serialize();
+----SegmentWriter::Serialize
 ```
