@@ -28,4 +28,9 @@ MySQLMetaImpl::CleanUpFilesWithTTL
 ------table_file.location_ = parent_path + "/" + table_file.file_id_;
 ----server::CommonUtil::EraseFromCache(collection_file.location_);
 ------CommonUtil::EraseFromCache
+----if (collection_file.file_type_ == (int)SegmentSchema::TO_DELETE) 
+------// delete file from disk storage
+------utils::DeleteCollectionFilePath(options_, collection_file);
+--------utils::GetCollectionFilePath(options, table_file);
+--------boost::filesystem::remove(table_file.location_);
 ```
