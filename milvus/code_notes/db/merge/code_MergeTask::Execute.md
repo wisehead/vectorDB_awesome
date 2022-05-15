@@ -12,4 +12,16 @@ MergeTask::Execute
 // step 2: merge files
 --utils::GetParentPath(collection_file.location_, new_segment_dir);
 --auto segment_writer_ptr = std::make_shared<segment::SegmentWriter>(new_segment_dir);
+--for (auto& file : files_)
+----server::CollectMergeFilesMetrics metrics;
+----utils::GetParentPath(file.location_, segment_dir_to_merge);
+----segment_writer_ptr->Merge(segment_dir_to_merge, collection_file.file_id_);
+------SegmentWriter::Merge
+----auto file_schema = file;
+----file_schema.file_type_ = meta::SegmentSchema::TO_DELETE;
+----updated.push_back(file_schema);
+----int64_t size = segment_writer_ptr->Size();
+----if (size >= file_schema.index_file_size_) {
+            break;
+----}
 ```
