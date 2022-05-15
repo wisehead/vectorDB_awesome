@@ -27,4 +27,16 @@ MergeTask::Execute
 --// step 3: serialize to disk
 --status = segment_writer_ptr->Serialize();
 ----SegmentWriter::Serialize
+--// step 4: update collection files state
+  // if index type isn't IDMAP, set file type to TO_INDEX if file size exceed index_file_size
+  // else set file type to RAW, no need to build index
+--if (!utils::IsRawIndexType(collection_file.engine_type_)) {
+----collection_file.file_type_ = (segment_writer_ptr->Size() >= (size_t)(collection_file.index_file_size_))? meta::SegmentSchema::TO_INDEX: meta::SegmentSchema::RAW;
+--} else {
+----collection_file.file_type_ = meta::SegmentSchema::RAW;
+--collection_file.file_size_ = segment_writer_ptr->Size();
+  collection_file.row_count_ = segment_writer_ptr->VectorCount();
+  updated.push_back(collection_file);
+  status = meta_ptr_->UpdateCollectionFiles(updated);
+--segment_writer_ptr->Cache();
 ```
