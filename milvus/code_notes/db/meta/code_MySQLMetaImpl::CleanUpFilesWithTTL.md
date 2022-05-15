@@ -33,4 +33,7 @@ MySQLMetaImpl::CleanUpFilesWithTTL
 ------utils::DeleteCollectionFilePath(options_, collection_file);
 --------utils::GetCollectionFilePath(options, table_file);
 --------boost::filesystem::remove(table_file.location_);
+------delete_ids.emplace_back(std::to_string(collection_file.id_));
+------collection_ids.insert(collection_file.collection_id_);
+------segment_ids.insert(std::make_pair(collection_file.segment_id_, collection_file));
 ```
