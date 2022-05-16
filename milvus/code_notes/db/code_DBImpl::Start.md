@@ -26,6 +26,10 @@ DBImpl::Start
 ------if (record.type == wal::MXLogType::None) {
 --------break;
 ------ExecWalRecord(record);
+----// for distribute version, some nodes are read only
+----if (options_.mode_ != DBOptions::MODE::CLUSTER_READONLY) {
+      // background wal thread
+------bg_wal_thread_ = std::thread(&DBImpl::BackgroundWalThread, this);
 ```
 
 #2.
