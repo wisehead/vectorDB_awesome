@@ -14,4 +14,10 @@ VectorSource::AddEntities
     	vector_ids_to_add[pos - current_num_attrs_added] = vectors_.id_array_[pos];
     }
 --segment_writer_ptr->AddAttrs(collection_file_schema.collection_id_, attr_size_, attr_data_, vector_ids_to_add);
+--current_num_attrs_added += num_entities_added;
+--std::vector<uint8_t> vectors;
+--auto size = num_entities_added * collection_file_schema.dimension_ * sizeof(float);
+--vectors.resize(size);
+--memcpy(vectors.data(), vectors_.float_data_.data() + current_num_vectors_added * collection_file_schema.dimension_,size);
+--status = segment_writer_ptr->AddVectors(collection_file_schema.file_id_, vectors, vector_ids_to_add);
 ```
