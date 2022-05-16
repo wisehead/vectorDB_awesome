@@ -43,5 +43,27 @@ MySQLMetaImpl::CleanUpFilesWithTTL
 ------idsToDeleteSS << "id = " << id << " OR ";
 ----statement << "DELETE FROM " << META_TABLEFILES << " WHERE " << idsToDeleteStr << ";";
 ----statement.exec()
+--// remove to_delete collections
+--statement << "SELECT id, table_id"<< " FROM " << META_TABLES << " WHERE state = " << 		std::to_string(CollectionSchema::TO_DELETE)<< ";";
+--mysqlpp::StoreQueryResult res = statement.store();
+--for (auto& resRow : res) {
+----size_t id = resRow["id"];
+----std::string collection_id;
+----resRow["table_id"].to_string(collection_id);
+----utils::DeleteCollectionPath(options_, collection_id, false);  // only delete empty folder
+----++remove_collections;
+----idsToDeleteSS << "id = " << std::to_string(id) << " OR ";
+--statement << "DELETE FROM " << META_TABLES << " WHERE " << idsToDeleteStr << ";";
+--statement.exec()
+--for (auto& collection_id : collection_ids)
+----statement << "SELECT file_id"<< " FROM " << META_TABLEFILES << " WHERE table_id = " << mysqlpp::quote << collection_id << ";";
+----mysqlpp::StoreQueryResult res = statement.store();
+----if (res.empty()) {
+------utils::DeleteCollectionPath(options_, collection_id);
+--------std::vector<std::string> paths = options.slave_paths_;
+--------paths.push_back(options.path_);
+--------for (auto& path : paths)
+----------std::string table_path = path + TABLES_FOLDER + collection_id;
+----------boost::filesystem::remove_all(table_path);
 
 ```
