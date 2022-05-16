@@ -29,6 +29,21 @@ DBImpl::ExecWalRecord
 ----case wal::MXLogType::Delete:
 ------std::vector<meta::CollectionSchema> partition_array;
 ------status = meta_ptr_->ShowPartitions(record.collection_id, partition_array);
+------if (record.length == 1) {
+                for (auto& collection_id : collection_ids) {
+                    status = mem_mgr_->DeleteVector(collection_id, *record.ids, record.lsn);
+                    if (!status.ok()) {
+                        return status;
+                    }
+                }
+-=-----} else {
+                for (auto& collection_id : collection_ids) {
+                    status = mem_mgr_->DeleteVectors(collection_id, record.length, record.ids, record.lsn);
+                    if (!status.ok()) {
+                        return status;
+                    }
+                }
+            }
 ```
 
 #2.lambda collections_flushed
