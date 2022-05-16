@@ -12,6 +12,7 @@ DBImpl::ExecWalRecord
 --------MemManagerImpl::InsertEntities                
 ------force_flush_if_mem_full();
 --------InternalFlush
+
 ----case wal::MXLogType::InsertBinary:
 ------status = GetPartitionByTag(record.collection_id, record.partition_tag, target_collection_name);
 ------status = mem_mgr_->InsertVectors(target_collection_name, record.length, record.ids,
@@ -19,7 +20,15 @@ DBImpl::ExecWalRecord
                                              (const u_int8_t*)record.data, record.lsn);
 ------force_flush_if_mem_full
 
+----case wal::MXLogType::InsertVector:
+------status = GetPartitionByTag(record.collection_id, record.partition_tag, target_collection_name);
+------status = mem_mgr_->InsertVectors(target_collection_name, record.length, record.ids,
+                                             (record.data_size / record.length / sizeof(float)),
+                                             (const float*)record.data, record.lsn);
 
+----case wal::MXLogType::Delete:
+------std::vector<meta::CollectionSchema> partition_array;
+------status = meta_ptr_->ShowPartitions(record.collection_id, partition_array);
 ```
 
 #2.lambda collections_flushed
