@@ -20,4 +20,6 @@ VectorSource::AddEntities
 --vectors.resize(size);
 --memcpy(vectors.data(), vectors_.float_data_.data() + current_num_vectors_added * collection_file_schema.dimension_,size);
 --status = segment_writer_ptr->AddVectors(collection_file_schema.file_id_, vectors, vector_ids_to_add);
+--current_num_vectors_added += num_entities_added;
+--vector_ids_.insert(vector_ids_.end(), std::make_move_iterator(vector_ids_to_add.begin()),std::make_move_iterator(vector_ids_to_add.end()));
 ```
