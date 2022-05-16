@@ -54,5 +54,32 @@ MemTable::ApplyDeletes
 ----auto& ids_to_check = ids_to_check_map[file.id_];
 ----segment::DeletedDocsPtr deleted_docs = std::make_shared<segment::DeletedDocs>();
 ----std::sort(ids_to_check.begin(), ids_to_check.end());
-----
+----for (size_t i = 0; i < uids.size(); ++i)
+------auto found = std::binary_search(ids_to_check.begin(), ids_to_check.end(), uids[i]);
+------if (found)
+--------deleted_docs->AddDeletedDoc(i);
+--------id_bloom_filter_ptr->Remove(uids[i]);
+--------for (auto& blacklist : blacklists) {
+----------blacklist->set(i);
+----for (size_t i = 0; i < indexes.size(); ++i) {
+            if (indexes[i]) {
+                indexes[i]->SetBlacklist(blacklists[i]);
+            }
+        }
+----status = segment_writer.WriteDeletedDocs(deleted_docs);
+----status = segment_writer.WriteBloomFilter(id_bloom_filter_ptr);
+----// Update collection file row count
+----for (auto& segment_file : segment_files) {
+            if (segment_file.file_type_ == meta::SegmentSchema::RAW ||
+                segment_file.file_type_ == meta::SegmentSchema::TO_INDEX ||
+                segment_file.file_type_ == meta::SegmentSchema::INDEX ||
+                segment_file.file_type_ == meta::SegmentSchema::BACKUP) {
+                segment_file.row_count_ -= deleted_docs->GetSize();
+                files_to_update.emplace_back(segment_file);
+            }
+----}        
+--status = meta_->UpdateCollectionFilesRowCount(files_to_update);
+----SqliteMetaImpl::UpdateCollectionFilesRowCount
+------std::string statement = "UPDATE " + std::string(META_TABLEFILES) + " SET row_count = " + row_count
+                                    + " , updated_time = " + updated_time + " WHERE file_id = " + file.file_id_ + ";";
 ```
