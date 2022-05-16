@@ -24,3 +24,33 @@ lambda collections_flushed
 --StartMergeTask(merge_collection_ids);
 --return max_lsn;
 ```
+
+#3.force_flush_if_mem_full
+
+```
+force_flush_if_mem_full
+--if (mem_mgr_->GetCurrentMem() > options_.insert_buffer_size_) 
+----MemManagerImpl::GetCurrentMem
+------GetCurrentMutableMem() + GetCurrentImmutableMem();
+--------MemManagerImpl::GetCurrentMutableMem
+----------for (auto& kv : mem_id_map_) {
+------------auto memTable = kv.second;
+------------total_mem += memTable->GetCurrentMem();
+--------------MemTable::GetCurrentMem
+----------------for (auto& mem_table_file : mem_table_file_list_) {
+------------------total_mem += mem_table_file->GetCurrentMem();
+--------------------MemTableFile::GetCurrentMem
+--------MemManagerImpl::GetCurrentImmutableMem
+----------for (auto& mem_table : immu_mem_list_) {
+------------total_mem += mem_table->GetCurrentMem();
+--------------MemTable::GetCurrentMem
+----------------for (auto& mem_table_file : mem_table_file_list_) {
+------------------total_mem += mem_table_file->GetCurrentMem();
+--------------------MemTableFile::GetCurrentMem
+----InternalFlush();
+------DBImpl::InternalFlush
+--------record.type = wal::MXLogType::Flush;
+--------record.collection_id = collection_id;
+--------ExecWalRecord(record);
+----------DBImpl::ExecWalRecord
+```
