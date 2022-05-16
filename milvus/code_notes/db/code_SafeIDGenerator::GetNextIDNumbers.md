@@ -8,14 +8,8 @@ SafeIDGenerator::GetNextIDNumbers
 --------SafeIDGenerator::NextIDNumbers
 ------n -= MAX_IDS_PER_MICRO;
 ----else {
-            Status status = NextIDNumbers(n, ids);
-            if (!status.ok()) {
-                return status;
-            }
-            break;
-        }
-    }
-
+------Status status = NextIDNumbers(n, ids);
+------break;
 ```
 
 #2.SafeIDGenerator::NextIDNumbers
