@@ -5,7 +5,7 @@ DBImpl::ExecWalRecord
 --lambda collections_flushed
 --switch (record.type) 
 ----case wal::MXLogType::Entity:
-------
+------status = GetPartitionByTag(record.collection_id, record.partition_tag, target_collection_name);
 
 
 ```
