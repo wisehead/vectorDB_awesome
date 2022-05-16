@@ -9,4 +9,7 @@ MemTable::Serialize
 ------MemTableFile::Serialize
 ----update_files.push_back((*mem_table_file)->GetSegmentSchema());
 ----mem_table_file = mem_table_file_list_.erase(mem_table_file);
+--// Update meta files and flush lsn
+--auto status = meta_->UpdateCollectionFiles(update_files);
+--status = meta_->UpdateCollectionFlushLSN(collection_id_, wal_lsn);
 ```
