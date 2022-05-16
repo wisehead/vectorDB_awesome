@@ -65,5 +65,12 @@ MySQLMetaImpl::CleanUpFilesWithTTL
 --------for (auto& path : paths)
 ----------std::string table_path = path + TABLES_FOLDER + collection_id;
 ----------boost::filesystem::remove_all(table_path);
-
+--// remove deleted segment folder
+--// don't remove segment folder until all its files has been deleted
+--for (auto& segment_id : segment_ids) 
+----statement << "SELECT id"<< " FROM " << META_TABLEFILES << " WHERE segment_id = " << mysqlpp::quote << segment_id.first<< ";";
+----mysqlpp::StoreQueryResult res = statement.store();
+----if (res.empty())
+------utils::DeleteSegment(options_, segment_id.second);
+------utils::GetParentPath(segment_id.second.location_, segment_dir);
 ```
