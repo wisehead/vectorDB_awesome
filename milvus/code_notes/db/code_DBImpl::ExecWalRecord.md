@@ -6,6 +6,12 @@ DBImpl::ExecWalRecord
 --switch (record.type) 
 ----case wal::MXLogType::Entity:
 ------status = GetPartitionByTag(record.collection_id, record.partition_tag, target_collection_name);
+------status = mem_mgr_->InsertEntities(
+                target_collection_name, record.length, record.ids, (record.data_size / record.length / sizeof(float)),
+                (const float*)record.data, record.attr_nbytes, record.attr_data_size, record.attr_data, record.lsn);
+--------MemManagerImpl::InsertEntities                
+------force_flush_if_mem_full();
+
 
 
 ```
