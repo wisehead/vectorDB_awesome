@@ -12,7 +12,12 @@ DBImpl::ExecWalRecord
 --------MemManagerImpl::InsertEntities                
 ------force_flush_if_mem_full();
 --------InternalFlush
-
+----case wal::MXLogType::InsertBinary:
+------status = GetPartitionByTag(record.collection_id, record.partition_tag, target_collection_name);
+------status = mem_mgr_->InsertVectors(target_collection_name, record.length, record.ids,
+                                             (record.data_size / record.length / sizeof(uint8_t)),
+                                             (const u_int8_t*)record.data, record.lsn);
+------force_flush_if_mem_full
 
 
 ```
