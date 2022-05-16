@@ -60,8 +60,12 @@ DBImpl::ExecWalRecord
 ------------MemManagerImpl::Flush
 ----------flushed_collections.insert(collection_id);
 --------collections_flushed(record.collection_id, flushed_collections);
+----------lambda
 ------else
---------
+--------status = mem_mgr_->Flush(collection_ids);
+--------uint64_t lsn = collections_flushed("", collection_ids);
+--------wal_mgr_->RemoveOldFiles(lsn);
+----------WalManager::RemoveOldFiles
 ```
 
 #2.lambda collections_flushed
