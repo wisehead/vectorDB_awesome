@@ -20,6 +20,12 @@ DBImpl::Start
 --if (options_.wal_enable_)
 ----error_code = wal_mgr_->Init(meta_ptr_);
 ------WalManager::Init
+----// recovery
+----while (1) {
+------auto error_code = wal_mgr_->GetNextRecovery(record);
+------if (record.type == wal::MXLogType::None) {
+--------break;
+------ExecWalRecord(record);
 ```
 
 #2.
