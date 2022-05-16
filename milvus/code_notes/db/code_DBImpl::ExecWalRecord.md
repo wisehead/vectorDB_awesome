@@ -3,6 +3,10 @@
 ```
 DBImpl::ExecWalRecord
 --lambda collections_flushed
+--switch (record.type) 
+----case wal::MXLogType::Entity:
+------
+
 
 ```
 
