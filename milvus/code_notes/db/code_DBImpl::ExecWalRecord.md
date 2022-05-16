@@ -44,6 +44,24 @@ DBImpl::ExecWalRecord
                     }
                 }
             }
+----case wal::MXLogType::Flush:
+------if (!record.collection_id.empty()) {
+        // flush one collection
+        std::vector<meta::CollectionSchema> partition_array;
+--------status = meta_ptr_->ShowPartitions(record.collection_id, partition_array);
+--------std::vector<std::string> collection_ids{record.collection_id};
+--------for (auto& partition : partition_array) {
+----------auto& partition_collection_id = partition.collection_id_;
+----------collection_ids.emplace_back(partition_collection_id);
+
+--------std::set<std::string> flushed_collections;
+--------for (auto& collection_id : collection_ids) 
+----------status = mem_mgr_->Flush(collection_id);
+------------MemManagerImpl::Flush
+----------flushed_collections.insert(collection_id);
+--------collections_flushed(record.collection_id, flushed_collections);
+------else
+--------
 ```
 
 #2.lambda collections_flushed
