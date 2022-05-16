@@ -16,6 +16,10 @@ DBImpl::Start
     }
 --StartMergeTask(merge_collection_ids, true);
 ----DBImpl::StartMergeTask
+--// wal
+--if (options_.wal_enable_)
+----error_code = wal_mgr_->Init(meta_ptr_);
+------WalManager::Init
 ```
 
 #2.
