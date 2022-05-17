@@ -14,5 +14,9 @@ DBWrapper::PreloadCollections
                       << " FROM " << META_TABLES << " WHERE state <> " << std::to_string(CollectionSchema::TO_DELETE);
 ----for (auto& schema : table_schema_array) {
 ------auto status = db_->PreloadCollection(nullptr, schema.collection_id_, partition_tags);
-                   
+--else
+----StringHelpFunctions::SplitStringByDelimeter(preload_collections, ",", collection_names);     
+----for (auto& name : collection_names) {
+------auto status = db_->PreloadCollection(nullptr, name, partition_tags);
+--------DBImpl::PreloadCollection
 ```
