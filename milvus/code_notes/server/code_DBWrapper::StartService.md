@@ -53,4 +53,6 @@ DBWrapper::StartService
 ------return std::make_shared<DBImpl>(options);
 --db_->Start();
 ----DBImpl::Start 
+--s = config.GetCacheConfigPreloadCollection(preload_collections);
+--s = PreloadCollections(preload_collections);
 ```
