@@ -7,5 +7,8 @@ GrpcRequestHandler::CreateCollection
 ----RequestHandler::CreateCollection
 ------BaseRequestPtr request_ptr =CreateCollectionRequest::Create(context, collection_name, dimension, index_file_size, metric_type);
 ------RequestScheduler::ExecRequest(request_ptr);
+--------RequestScheduler::ExecRequest
+----------RequestScheduler& scheduler = RequestScheduler::GetInstance();
+----------scheduler.ExecuteRequest(request_ptr);
 --SET_RESPONSE(response, status, context);
 ```
