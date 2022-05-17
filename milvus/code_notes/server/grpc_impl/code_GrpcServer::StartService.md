@@ -20,6 +20,8 @@ GrpcServer::StartService
 --builder.AddListeningPort(server_address, ::grpc::InsecureServerCredentials());            
 --builder.RegisterService(&service);                                                        
                                                                                             
-
+--GrpcRequestHandler service(opentracing::Tracer::Global());
+--service.RegisterRequestHandler(RequestHandler());
+    
 
 ```
