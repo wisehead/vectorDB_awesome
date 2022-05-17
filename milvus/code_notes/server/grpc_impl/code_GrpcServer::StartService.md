@@ -22,6 +22,8 @@ GrpcServer::StartService
                                                                                             
 --GrpcRequestHandler service(opentracing::Tracer::Global());
 --service.RegisterRequestHandler(RequestHandler());
-    
+----GrpcRequestHandler::RegisterRequestHandler
+--builder.AddListeningPort(server_address, ::grpc::InsecureServerCredentials());
+--builder.RegisterService(&service);
 
 ```
