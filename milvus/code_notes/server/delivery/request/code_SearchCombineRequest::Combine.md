@@ -19,5 +19,6 @@ SearchCombineRequest::Combine
 ----extra_params_ = request->ExtraParams();                                                                         
 ----GetUniqueList(request->PartitionList(), partition_list_);   
 ----GetUniqueList(request->FileIDList(), file_id_list_);        
-
+--request_list_.push_back(request);
+--vectors_data_.vector_count_ += request->VectorsData().vector_count_;
 ```
