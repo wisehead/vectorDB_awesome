@@ -2,7 +2,19 @@
 
 ```
 WalManager::GetNextRecord
---
+--if (check_flush()) {
+        return WAL_SUCCESS;
+--}
+--while (WAL_SUCCESS == p_buffer_->Next(last_applied_lsn_, record))
+----if (record.type == MXLogType::None)
+------if (check_flush())
+--------return WAL_SUCCESS;
+------break;
+----auto it_col = collections_.find(record.collection_id);
+----if (it_col != collections_.end()) {
+------auto it_part = it_col->second.find(record.partition_tag);
+------if (it_part->second.flush_lsn < record.lsn) {
+--------break;
 
 ```
 
