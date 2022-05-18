@@ -19,7 +19,18 @@ MySQLMetaImpl::FilesToSearchEx
 
 #2.DistributeBatch
 
-```
-DistributeBatch
---
+```cpp
+std::vector<std::string> temp_group;
+    //    constexpr uint64_t SQL_BATCH_SIZE = 50; // duplicate variable
+    for (auto& id : id_array) {
+        temp_group.push_back(id);
+        if (temp_group.size() >= SQL_BATCH_SIZE) {
+            id_groups.emplace_back(temp_group);
+            temp_group.clear();
+        }
+    }
+
+    if (!temp_group.empty()) {
+        id_groups.emplace_back(temp_group);
+    }
 ```
