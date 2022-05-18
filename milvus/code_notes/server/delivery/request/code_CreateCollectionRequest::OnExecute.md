@@ -23,5 +23,5 @@ CreateCollectionRequest::OnExecute
         }
 --// step 3: create collection
 --status = DBWrapper::DB()->CreateCollection(collection_info);      
-----DBImpl::CreateCollection  
+----DBImpl::CreateCollection
 ```
