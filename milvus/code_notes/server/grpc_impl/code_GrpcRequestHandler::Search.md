@@ -17,7 +17,14 @@ GrpcRequestHandler::Search
         if (extra.key() == EXTRA_PARAM_KEY) {
             json_params = json::parse(extra.value());
         }
-    }              
+    }       
+--// step 4: search vectors
+--std::vector<std::string> file_ids; 
+--Status status = request_handler_.Search(GetContext(context), request->collection_name(), vectors, request->topk(),
+                                            json_params, partitions, file_ids, result);  
+----RequestHandler::Search                                                    
+--// step 5: construct and return result
+--ConstructResults(result, response);
 ```
 
 #2.CopyRowRecords
