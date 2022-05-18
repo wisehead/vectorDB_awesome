@@ -12,4 +12,5 @@ RequestScheduler::TakeToExecute
 ----auto status = request->Execute();
 ------BaseRequest::Execute
 --------SearchRequest::OnExecute//根据不同的种类调用各自的处理函数
+--------CreateCollectionRequest::OnExecute
 ```
