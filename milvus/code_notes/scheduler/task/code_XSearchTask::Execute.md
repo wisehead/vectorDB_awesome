@@ -40,4 +40,11 @@ XSearchTask::Execute
 
 --// step 2: search
 --bool hybrid = std::dynamic_pointer_cast<SpecResLabel>(label_)->IsHybrid();
+--if (!vectors.float_data_.empty()) {
+----s = index_engine_->Search(nq, vectors.float_data_.data(), topk, extra_params, output_distance.data(),output_ids.data(), hybrid);
+------ExecutionEngineImpl::Search
+--else if (!vectors.binary_data_.empty()) {
+----s = index_engine_->Search(nq, vectors.binary_data_.data(), topk, extra_params, output_distance.data(),output_ids.data(), hybrid);
+--}
+
 ```
