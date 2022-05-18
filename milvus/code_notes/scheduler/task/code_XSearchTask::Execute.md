@@ -47,4 +47,8 @@ XSearchTask::Execute
 ----s = index_engine_->Search(nq, vectors.binary_data_.data(), topk, extra_params, output_distance.data(),output_ids.data(), hybrid);
 --}
 
+--// step 3: pick up topk result
+--XSearchTask::MergeTopkToResultSet(output_ids, output_distance, spec_k, nq, topk, ascending_reduce,
+                                                  search_job->GetResultIds(), search_job->GetResultDistances());
+
 ```
