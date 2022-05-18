@@ -15,6 +15,25 @@ MySQLMetaImpl::FilesToSearchEx
 --// distribute id array to batches
 --std::vector<std::vector<std::string>> id_groups;
 --DistributeBatch(partition_id_array, id_groups);
+--for (auto group : id_groups) 
+----statement << "SELECT id, table_id, segment_id, file_id, file_type, file_size, row_count, date,"
+                          << " engine_type, created_on, updated_time"
+                          << " FROM " << META_TABLEFILES << " WHERE table_id in (";
+                for (size_t i = 0; i < group.size(); i++) {
+                    statement << mysqlpp::quote << group[i];
+                    if (i != group.size() - 1) {
+                        statement << ",";
+                    }
+                }
+                statement << ")";
+
+                // End
+                statement << " AND"
+                          << " (file_type = " << std::to_string(SegmentSchema::RAW)
+                          << " OR file_type = " << std::to_string(SegmentSchema::TO_INDEX)
+                          << " OR file_type = " << std::to_string(SegmentSchema::INDEX) << ");";
+
+                LOG_ENGINE_DEBUG_ << "FilesToSearch: " << statement.str();                          
 ```
 
 #2.DistributeBatch
