@@ -6,6 +6,18 @@ GrpcRequestHandler::Search
 --engine::VectorsData vectors;
 --CopyRowRecords(request->query_record_array(), google::protobuf::RepeatedField<google::protobuf::int64>(), vectors);
 ----CopyRowRecords
+--// step 2: partition tags
+    std::vector<std::string> partitions;
+    std::copy(request->partition_tag_array().begin(), request->partition_tag_array().end(),
+              std::back_inserter(partitions));
+--// step 3: parse extra parameters
+    milvus::json json_params;
+    for (int i = 0; i < request->extra_params_size(); i++) {
+        const ::milvus::grpc::KeyValuePair& extra = request->extra_params(i);
+        if (extra.key() == EXTRA_PARAM_KEY) {
+            json_params = json::parse(extra.value());
+        }
+    }              
 ```
 
 #2.CopyRowRecords
