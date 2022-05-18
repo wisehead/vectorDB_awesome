@@ -5,4 +5,5 @@ ENDPOINT("POST", "/collections", CreateCollection, BODY_DTO(CollectionRequestDto
 --WebRequestHandler handler = WebRequestHandler();
 --auto status_dto = handler.CreateCollection(body);
 ----WebRequestHandler::CreateCollection
+------RequestHandler::CreateCollection
 ```
