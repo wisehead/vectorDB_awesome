@@ -45,3 +45,53 @@ type EtcdConfig struct {
 	DataDir      string
 }
 ```
+
+#4.struct PulsarConfig
+
+```
+// --- pulsar ---
+type PulsarConfig struct {
+	Base *BaseTable
+
+	Address        string
+	MaxMessageSize int
+}
+```
+
+#5. struct KafkaConfig
+
+```go
+// --- kafka ---
+type KafkaConfig struct {
+	Base    *BaseTable
+	Address string
+}
+
+```
+
+#6. struct RocksmqConfig
+
+```go
+// --- rocksmq ---
+type RocksmqConfig struct {
+	Base *BaseTable
+
+	Path string
+}
+```
+
+#7. struct MinioConfig
+
+```go
+// --- minio ---
+type MinioConfig struct {
+	Base *BaseTable
+
+	Address         string
+	AccessKeyID     string
+	SecretAccessKey string
+	UseSSL          bool
+	BucketName      string
+	RootPath        string
+}
+```
