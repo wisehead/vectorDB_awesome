@@ -17,4 +17,30 @@ Server.init
 --s.etcdCli = etcdCli
 --s.rootCoord.SetEtcdClient(s.etcdCli)
 --err = s.startGrpc(Params.Port)
+--s.rootCoord.UpdateStateCode(internalpb.StateCode_Initializing)
+--s.rootCoord.SetNewProxyClient(
+		func(se *sessionutil.Session) (types.Proxy, error) {
+			cli, err := pnc.NewClient(s.ctx, se.Address)
+			if err != nil {
+				return nil, err
+			}
+			if err := cli.Init(); err != nil {
+				return nil, err
+			}
+			if err := cli.Start(); err != nil {
+				return nil, err
+			}
+			return cli, nil
+		},
+	)
+--dataCoord := s.newDataCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
+--err := s.rootCoord.SetDataCoord(s.ctx, dataCoord)
+--s.dataCoord = dataCoord
+--indexCoord := s.newIndexCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
+--err := s.rootCoord.SetIndexCoord(indexCoord);
+--s.indexCoord = indexCoord
+--queryCoord := s.newQueryCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
+--err := s.rootCoord.SetQueryCoord(queryCoord);
+--s.queryCoord = queryCoord
+--s.rootCoord.Init()
 ```
