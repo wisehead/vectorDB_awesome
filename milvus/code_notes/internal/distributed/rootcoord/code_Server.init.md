@@ -45,6 +45,7 @@ Server.init
 --err := s.rootCoord.SetQueryCoord(queryCoord);
 --s.queryCoord = queryCoord
 --s.rootCoord.Init()
+----internal.rootcoord.Core.Init
 ```
 
 #2. setClient
