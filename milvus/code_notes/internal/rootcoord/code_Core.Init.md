@@ -24,4 +24,6 @@ Init
 	}
 ------err := mt.reloadFromKV()
 ----kv := tsoutil.NewTSOKVBase(c.etcdCli, Params.EtcdCfg.KvRootPath, "gid")
+------internal.util.tsoutil.NewTSOKVBase
+--------etcdkv.NewEtcdKV
 ```
