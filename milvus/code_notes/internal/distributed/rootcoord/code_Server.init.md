@@ -35,6 +35,7 @@ Server.init
 	)
 --dataCoord := s.newDataCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
 --err := s.rootCoord.SetDataCoord(s.ctx, dataCoord)
+----Core.SetDataCoord
 --s.dataCoord = dataCoord
 --indexCoord := s.newIndexCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
 --err := s.rootCoord.SetIndexCoord(indexCoord);
@@ -43,4 +44,32 @@ Server.init
 --err := s.rootCoord.SetQueryCoord(queryCoord);
 --s.queryCoord = queryCoord
 --s.rootCoord.Init()
+```
+
+#2. setClient
+
+```go
+func (s *Server) setClient() {
+	s.newDataCoordClient = func(etcdMetaRoot string, etcdCli *clientv3.Client) types.DataCoord {
+		dsClient, err := dcc.NewClient(s.ctx, etcdMetaRoot, etcdCli)
+		if err != nil {
+			panic(err)
+		}
+		return dsClient
+	}
+	s.newIndexCoordClient = func(metaRootPath string, etcdCli *clientv3.Client) types.IndexCoord {
+		isClient, err := icc.NewClient(s.ctx, metaRootPath, etcdCli)
+		if err != nil {
+			panic(err)
+		}
+		return isClient
+	}
+	s.newQueryCoordClient = func(metaRootPath string, etcdCli *clientv3.Client) types.QueryCoord {
+		qsClient, err := qcc.NewClient(s.ctx, metaRootPath, etcdCli)
+		if err != nil {
+			panic(err)
+		}
+		return qsClient
+	}
+}
 ```
