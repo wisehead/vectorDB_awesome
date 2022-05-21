@@ -8,6 +8,11 @@ SetDataCoord
 ------internal.distributed.datanode.client.Client.Init
 ----s.Start();
 --c.CallGetBinlogFilePathsService
+----internal.distributed.datacoord.client.Client::GetInsertBinlogPaths
+------return client.(datapb.DataCoordClient).GetInsertBinlogPaths(ctx, req)
+--------internal.proto.datapb.dataCoordClient::GetInsertBinlogPaths
+----------err := c.cc.Invoke(ctx, "/milvus.proto.data.DataCoord/GetInsertBinlogPaths", in, out, opts...)
+
 --c.CallGetNumRowsService
 --c.CallGetFlushedSegmentsService
 --c.CallWatchChannels
