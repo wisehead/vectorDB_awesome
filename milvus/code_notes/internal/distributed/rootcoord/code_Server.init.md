@@ -39,6 +39,7 @@ Server.init
 --s.dataCoord = dataCoord
 --indexCoord := s.newIndexCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
 --err := s.rootCoord.SetIndexCoord(indexCoord);
+----Core.SetIndexCoord
 --s.indexCoord = indexCoord
 --queryCoord := s.newQueryCoordClient(rootcoord.Params.EtcdCfg.MetaRootPath, s.etcdCli)
 --err := s.rootCoord.SetQueryCoord(queryCoord);
