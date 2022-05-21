@@ -27,5 +27,12 @@ SetIndexCoord
 --------client.(indexpb.IndexCoordClient).DropIndex(ctx, req)
 ----------internal.proto.indexpb.indexCoordClient::DropIndex
 ------------err := c.cc.Invoke(ctx, "/milvus.proto.index.IndexCoord/DropIndex", in, out, opts...)
+
+--c.CallGetIndexStatesService 
+----res, err := s.GetIndexStates
+------internal.distributed.indexcoord.client.Client::GetIndexStates
+--------return client.(indexpb.IndexCoordClient).GetIndexStates(ctx, req)
+----------internal.proto.indexpb.indexCoordClient::GetIndexStates
+------------err := c.cc.Invoke(ctx, "/milvus.proto.index.IndexCoord/GetIndexStates", in, out, opts...)
 ```
 
