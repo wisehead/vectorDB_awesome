@@ -26,4 +26,17 @@ Init
 ----kv := tsoutil.NewTSOKVBase(c.etcdCli, Params.EtcdCfg.KvRootPath, "gid")
 ------internal.util.tsoutil.NewTSOKVBase
 --------etcdkv.NewEtcdKV
+----idAllocator := allocator.NewGlobalIDAllocator("idTimestamp", kv)
+------allocator := tso.NewGlobalTSOAllocator(key, base)
+--------return &GlobalTSOAllocator{
+		tso: &timestampOracle{
+			txnKV:         txnKV,
+			saveInterval:  3 * time.Second,
+			maxResetTSGap: func() time.Duration { return 3 * time.Second },
+			key:           key,
+		},
+		LimitMaxLogic: true,
+	}
+----c.factory.Init(&Params)
+------internal.util.dependency.DefaultFactory::Init	
 ```
