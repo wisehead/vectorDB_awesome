@@ -21,4 +21,11 @@ SetIndexCoord
 	})
 ----------internal.proto.indexpb.indexCoordClient::BuildIndex
 ------------err := c.cc.Invoke(ctx, "/milvus.proto.index.IndexCoord/BuildIndex", in, out, opts...)		
+--c.CallDropIndexService
+----s.DropIndex(ctx, &indexpb.DropIndexRequest{IndexID: indexID,})
+------internal.distributed.indexcoord.client.Client::DropIndex
+--------client.(indexpb.IndexCoordClient).DropIndex(ctx, req)
+----------internal.proto.indexpb.indexCoordClient::DropIndex
+------------err := c.cc.Invoke(ctx, "/milvus.proto.index.IndexCoord/DropIndex", in, out, opts...)
 ```
+
