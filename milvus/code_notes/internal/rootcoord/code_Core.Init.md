@@ -38,5 +38,30 @@ Init
 		LimitMaxLogic: true,
 	}
 ----c.factory.Init(&Params)
-------internal.util.dependency.DefaultFactory::Init	
+------internal.util.dependency.DefaultFactory::Init
+----chanMap := c.MetaTable.ListCollectionPhysicalChannels()
+----c.chanTimeTick = newTimeTickSync(c.ctx, c.session.ServerID, c.factory, chanMap)
+----c.chanTimeTick.addSession(c.session)
+----c.proxyClientManager = newProxyClientManager(c)
+----c.proxyManager = newProxyManager(
+			c.ctx,
+			c.etcdCli,
+			c.chanTimeTick.initSessions,
+			c.proxyClientManager.GetProxyClients,
+		)
+----c.proxyManager.AddSessionFunc(c.chanTimeTick.addSession, c.proxyClientManager.AddProxyClient)
+----c.proxyManager.DelSessionFunc(c.chanTimeTick.delSession, c.proxyClientManager.DelProxyClient)
+
+----initError = c.setMsgStreams()
+
+----c.importManager = newImportManager(
+			c.ctx,
+			c.impTaskKv,
+			c.IDAllocator,
+			c.CallImportService,
+		)
+----c.importManager.init(c.ctx)
+
+----// init data
+----initError = c.initData()
 ```
