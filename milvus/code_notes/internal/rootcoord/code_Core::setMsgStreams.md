@@ -28,3 +28,22 @@ c.SendTimeTick
 		}
 --c.chanTimeTick.updateTimeTick(&ttMsg, reason)
 ```
+
+#2.c.SendDdCreateCollectionReq 
+
+```
+c.SendDdCreateCollectionReq 
+--msgPack := ms.MsgPack{}
+--baseMsg := ms.BaseMsg{
+			Ctx:            ctx,
+			BeginTimestamp: req.Base.Timestamp,
+			EndTimestamp:   req.Base.Timestamp,
+			HashValues:     []uint32{0},
+		}
+--msg := &ms.CreateCollectionMsg{
+			BaseMsg:                 baseMsg,
+			CreateCollectionRequest: *req,
+		}
+--msgPack.Msgs = append(msgPack.Msgs, msg)
+--return c.chanTimeTick.broadcastMarkDmlChannels(channelNames, &msgPack)				
+```
