@@ -1,0 +1,24 @@
+#1.NewRocksMQ
+
+```
+// NewRocksMQ step:
+// 1. New rocksmq instance based on rocksdb with name and rocksdbkv with kvname
+// 2. Init retention info, load retention info to memory
+// 3. Start retention goroutine
+
+NewRocksMQ
+--bbto := gorocksdb.NewDefaultBlockBasedTableOptions()
+--bbto.SetBlockCache(gorocksdb.NewLRUCache(RocksDBLRUCacheCapacity))
+--optsKV := gorocksdb.NewDefaultOptions()
+--optsKV.SetBlockBasedTableFactory(bbto)
+--optsKV.SetCreateIfMissing(true)
+--// by default there are only 1 thread for flush compaction, which may block each other.
+--// increase to a reasonable thread numbers
+--optsKV.IncreaseParallelism(parallelism)
+--// enable back ground flush
+--optsKV.SetMaxBackgroundFlushes(1)
+
+// finish rocks KV
+--kvName := name + kvSuffix
+--kv, err := rocksdbkv.NewRocksdbKVWithOpts(kvName, optsKV)
+```
